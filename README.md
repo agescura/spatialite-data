@@ -1,33 +1,34 @@
-# SwiftSpatialite
+# SpatiaLiteData
 
-**SpatiaLite for iOS, packaged for Swift Package Manager.**
+**Spatial SQLite for Swift and Apple platforms.**
 
-SwiftSpatialite makes it possible to use the power of [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) and its geospatial ecosystem directly from native iOS applications.
+SpatiaLiteData provides a Swift Package Manager integration for [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index), bringing spatial database capabilities to native Swift applications.
 
-It provides a Swift Package Manager distribution of SpatiaLite together with the native libraries required for spatial database operations, making it easier to build offline-first and location-aware applications.
+It combines a Swift-facing API with a native SpatiaLite-based spatial engine, allowing applications to store, query and process geographic data locally using SQLite and spatial SQL.
 
-[![Swift](https://img.shields.io/badge/Swift-6.3-orange.svg)](https://swift.org)
-[![iOS](https://img.shields.io/badge/iOS-15%2B-lightgrey.svg)](https://developer.apple.com/ios/)
+[![Swift](https://img.shields.io/badge/Swift-6.4-orange.svg)](https://swift.org)
+[![iOS](https://img.shields.io/badge/iOS-16%2B-lightgrey.svg)](https://developer.apple.com/ios/)
 [![Xcode](https://img.shields.io/badge/Xcode-27%2B-blue.svg)](https://developer.apple.com/xcode/)
 [![Swift Package Manager](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://www.swift.org/package-manager/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
-## Why SwiftSpatialite?
+## Why SpatiaLiteData?
 
-SQLite is an excellent database for local data, but many applications working with geographic information need more than standard relational queries.
+SQLite is an excellent embedded database, but applications working with geographic data often need more than conventional relational queries.
 
-SpatiaLite adds a complete spatial layer to SQLite, providing support for geometries, spatial relationships, measurements and coordinate reference systems.
+[SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extends SQLite with spatial capabilities, including geometries, spatial relationships, measurements and coordinate reference systems.
 
-On iOS, however, integrating SpatiaLite can require building and linking several native dependencies.
+Using those capabilities directly from an Apple application traditionally requires dealing with native libraries and their build configuration.
 
-**SwiftSpatialite packages that stack into a Swift Package Manager dependency.**
+**SpatiaLiteData packages the spatial stack as a Swift Package Manager dependency.**
 
-Instead of managing the native libraries yourself:
+Instead of managing the native spatial components independently:
 
 ```text
-Your iOS application
+Your Swift application
+
         │
         ├── SQLite
         ├── SpatiaLite
@@ -38,41 +39,53 @@ Your iOS application
 you can depend on:
 
 ```text
-Your iOS application
+Your Swift application
+
         │
-        └── SwiftSpatialite
+        └── SpatiaLiteData
                 │
-                ├── SQLite
-                ├── SpatiaLite
-                ├── GEOS
-                └── PROJ
+                └── Internals
+                        │
+                        ├── SpatiaLite
+                        ├── GEOS
+                        └── PROJ
 ```
+
+This makes spatial database functionality available as part of a regular Swift Package Manager dependency.
 
 ---
 
 ## Features
 
 * 📦 Swift Package Manager integration
-* 📱 Native iOS support
-* 🗄️ SQLite database with SpatiaLite
+* 🗄️ SQLite + SpatiaLite spatial database capabilities
 * 🌍 Spatial SQL operations
-* 📍 Geometry and geographic data support
+* 📍 Geographic geometry support
 * 📐 Spatial measurements and relationships
-* 🔄 Coordinate transformations through PROJ
-* ⚡ Native `arm64` iOS binaries
-* 🧩 Designed to work with Swift database abstractions
+* 🔄 Coordinate reference systems and transformations
+* ⚡ Native Apple-platform binaries
+* 🧩 Integration with Swift database abstractions
 * 💾 Suitable for offline-first applications
+* 🗺️ Designed for applications working with geographic data
 
 ---
 
-## Requirements
+## Supported Platforms
 
-| Requirement  | Version |
-| ------------ | ------- |
-| iOS          | 15.0+   |
-| Swift        | 6.3+    |
-| Xcode        | 27+     |
-| Architecture | arm64   |
+| Platform | Minimum version |
+| -------- | --------------- |
+| iOS      | 16.0+           |
+| macOS    | 13.0+           |
+| tvOS     | 16.0+           |
+| watchOS  | 9.0+            |
+
+### Toolchain
+
+| Requirement           | Version             |
+| --------------------- | ------------------- |
+| Swift                 | 6.4+                |
+| Swift Package Manager | Included with Swift |
+| Xcode                 | 27+                 |
 
 ---
 
@@ -86,20 +99,20 @@ In Xcode:
 2. Enter:
 
 ```text
-https://github.com/agescura/swift-spatialite.git
+https://github.com/agescura/spatialite-data.git
 ```
 
 3. Select the desired version.
-4. Add the `SwiftSpatialite` product to your application target.
+4. Add the **SpatiaLiteData** product to your target.
 
 ### Swift Package Manager
 
-Add the dependency to your `Package.swift`:
+Add the package dependency:
 
 ```swift
 dependencies: [
     .package(
-        url: "https://github.com/agescura/swift-spatialite.git",
+        url: "https://github.com/agescura/spatialite-data.git",
         from: "0.0.1"
     )
 ]
@@ -112,8 +125,8 @@ Then add the product to your target:
     name: "MyApp",
     dependencies: [
         .product(
-            name: "SwiftSpatialite",
-            package: "swift-spatialite"
+            name: "SpatiaLiteData",
+            package: "spatialite-data"
         )
     ]
 )
@@ -121,23 +134,17 @@ Then add the product to your target:
 
 ---
 
-## Getting started
+## Getting Started
 
 Import the package:
 
 ```swift
-import SwiftSpatialite
+import SpatiaLiteData
 ```
 
-Create a spatial database:
+SpatiaLiteData provides a Swift-facing layer for working with SQLite and SpatiaLite.
 
-```swift
-let database = try SpatialDatabase()
-```
-
-The database can then be used as the foundation for local spatial data operations.
-
-For example, SpatiaLite allows spatial calculations to be performed directly inside SQLite:
+Spatial operations can be expressed using SQL:
 
 ```sql
 SELECT ST_Distance(
@@ -146,59 +153,71 @@ SELECT ST_Distance(
 );
 ```
 
-This approach allows spatial calculations to remain close to the data instead of moving geometry processing into the application layer.
+The main advantage of this approach is that geographic operations can be performed close to the data rather than requiring geometries to be transferred to application-level Swift code.
 
 ---
 
-## Spatial databases on iOS
+## Spatial Database Architecture
 
-A typical application architecture can use SwiftSpatialite as the local spatial database layer:
+A typical application can use SpatiaLiteData as its local geographic data layer:
 
 ```text
-┌───────────────────────────────────┐
-│              iOS App              │
-├───────────────────────────────────┤
-│         Swift / SwiftUI           │
-├───────────────────────────────────┤
-│       Application Data Layer      │
-├───────────────────────────────────┤
-│       SQLite / SpatiaLite         │
-├───────────────────────────────────┤
-│          GEOS        PROJ         │
-└───────────────────────────────────┘
+┌─────────────────────────────────────┐
+│             Swift App               │
+├─────────────────────────────────────┤
+│          Swift / SwiftUI            │
+├─────────────────────────────────────┤
+│        Application Data Layer       │
+├─────────────────────────────────────┤
+│       SQLite / SpatiaLite           │
+├─────────────────────────────────────┤
+│        Native Spatial Engine        │
+│          GEOS        PROJ           │
+└─────────────────────────────────────┘
 ```
 
-This makes SwiftSpatialite particularly useful for applications that need to work with geographic data while offline.
+This architecture is particularly useful for applications that need to work with geographic data without depending on a remote spatial database.
 
 ---
 
-## Use cases
+## Use Cases
 
-SwiftSpatialite can be used as a foundation for applications such as:
+### 🗺️ Offline Maps
 
-### 🗺️ Offline maps
+Store geographic datasets locally and perform spatial queries without a network connection.
 
-Store geographic data locally and perform spatial queries without requiring a network connection.
+### 🥾 Outdoor Applications
 
-### 🥾 Outdoor applications
+Store and process:
 
-Store and process hiking tracks, routes, waypoints and other geographic information directly on the device.
+* Tracks
+* Routes
+* Waypoints
+* Points of interest
+* Geographic datasets
 
-### 🚴 Route applications
+directly on the device.
 
-Perform local distance calculations, geometry operations and spatial queries.
+### 🚴 Route Applications
 
-### 📍 Location-based applications
+Perform local operations such as:
 
-Combine Core Location with spatial database queries to work with geographic datasets stored locally.
+* Distance calculations
+* Spatial relationships
+* Geometry operations
+* Route analysis
+
+### 📍 Location-Based Applications
+
+Combine [Core Location](https://developer.apple.com/documentation/corelocation) with local spatial queries to work with geographic datasets on-device.
 
 ### 🧭 Navigation
 
-Use spatial data and coordinate transformations as part of an on-device navigation system.
+Use spatial data as part of an on-device navigation engine, including route matching, proximity queries and geographic calculations.
 
-### 🌐 GIS applications
+### 🌐 GIS Applications
 
-Use SQLite as a lightweight local spatial database for geographic datasets.
+Use SQLite as an embedded spatial database for geographic datasets and GIS-oriented applications.
 
 ---
 
@@ -215,22 +234,22 @@ Depending on the operation, applications can work with:
 * Bounding boxes
 * Distances
 * Intersections
-* Spatial relationships
+* Spatial predicates
 * Geometry transformations
 * Coordinate reference systems
 * Coordinate transformations
 
-For the complete list of spatial functions, see the [SpatiaLite documentation](https://www.gaia-gis.it/fossil/libspatialite/index).
+See the [SpatiaLite documentation](https://www.gaia-gis.it/fossil/libspatialite/index) for the complete set of spatial functionality.
 
 ---
 
 ## GEOS and PROJ
 
-SwiftSpatialite brings together the native components required by the spatial stack.
+SpatiaLiteData relies on the native spatial ecosystem provided by SpatiaLite and its associated libraries.
 
 ### GEOS
 
-[GEOS](https://libgeos.org/) provides the computational geometry functionality used by SpatiaLite for operations such as:
+[GEOS](https://libgeos.org/) provides computational geometry functionality used for operations such as:
 
 * Geometry relationships
 * Intersection
@@ -243,21 +262,21 @@ SwiftSpatialite brings together the native components required by the spatial st
 
 [PROJ](https://proj.org/) provides coordinate reference system and coordinate transformation functionality.
 
-This allows geographic data using different coordinate systems to be transformed locally on the device.
+This makes it possible to transform geographic data between coordinate systems locally on the device.
 
 ---
 
-## Database abstraction
+## Swift Database Integration
 
-SwiftSpatialite is designed to work alongside higher-level Swift database libraries.
+SpatiaLiteData is designed to work alongside Swift database abstractions.
 
-An application can keep its existing database abstraction for standard relational data while using SpatiaLite for spatial operations.
+The package can be used alongside [SQLiteData](https://github.com/pointfreeco/sqlite-data), allowing applications to combine conventional application persistence with spatial capabilities.
 
-For example:
+A possible architecture is:
 
 ```text
 ┌─────────────────────────────┐
-│        Swift Models        │
+│        Swift Models         │
 └──────────────┬──────────────┘
                │
                ▼
@@ -275,42 +294,35 @@ For example:
         SQLite / SpatiaLite
 ```
 
-This makes it possible to combine conventional application persistence with spatial SQL without introducing a separate spatial database server.
+This allows an application to keep its existing Swift data model while using spatial SQL for geographic operations.
 
 ---
 
-## Example architecture
+## Package Architecture
 
-A typical offline-first application could use:
+The package separates the public Swift API from the underlying native spatial implementation:
 
 ```text
-                    iOS Application
-                          │
-              ┌───────────┴───────────┐
-              │                       │
-        Application Data        Geographic Data
-              │                       │
-              └───────────┬───────────┘
-                          │
-                     SQLite DB
-                          │
-                     SpatiaLite
-                    ┌─────┴─────┐
-                    │           │
-                   GEOS        PROJ
+SpatiaLiteData
+│
+├── SpatiaLiteData
+│   └── Public Swift API
+│
+└── Internals
+    └── Native spatial implementation
 ```
 
-All spatial processing can therefore happen locally on the device.
+The `Internals` target contains the implementation details required by the public package and keeps the native spatial dependencies behind the package's public API.
 
 ---
 
-## Building from source
+## Building From Source
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/agescura/swift-spatialite.git
-cd swift-spatialite
+git clone https://github.com/agescura/spatialite-data.git
+cd spatialite-data
 ```
 
 Build the package:
@@ -327,52 +339,48 @@ swift test
 
 ---
 
-## Project structure
-
-The repository is organized as a standard Swift Package:
+## Project Structure
 
 ```text
-swift-spatialite/
+spatialite-data/
 │
 ├── Package.swift
 ├── Sources/
-│   └── SwiftSpatialite/
+│   ├── SpatiaLiteData/
+│   └── Internals/
 │
 ├── Tests/
 │
-├── README.md
-└── LICENSE
+└── README.md
 ```
-
-The package keeps the Swift-facing API separate from the underlying native spatial libraries.
 
 ---
 
 ## Versioning
 
-SwiftSpatialite follows [Semantic Versioning](https://semver.org/).
+SpatiaLiteData follows [Semantic Versioning](https://semver.org/).
 
 ### Current version
 
 **0.0.1**
 
-The project is currently in the `0.x` development phase. APIs and package structure may evolve before the `1.0.0` release.
+The project is currently in the `0.x` development phase. APIs and package structure may evolve before a `1.0.0` release.
 
 ---
 
 ## Roadmap
 
-The project is currently focused on providing a reliable native SpatiaLite foundation for iOS applications.
+The project is currently focused on providing a reliable native spatial database foundation for Swift applications.
 
 Potential future improvements include:
 
-* [ ] Expanded Swift API
+* [ ] Expanded Swift spatial API
+* [ ] More spatial convenience APIs
 * [ ] Improved database lifecycle management
-* [ ] Additional spatial convenience APIs
 * [ ] More comprehensive test coverage
 * [ ] Example iOS application
 * [ ] Swift Package Index documentation
-* [ ] Additional architectures/platforms where appropriate
+* [ ] Additional Apple platforms and architectures where appropriate
 * [ ] Stable `1.0.0` API
 
 The roadmap may evolve as the package matures.
@@ -398,20 +406,22 @@ For larger changes, opening an issue first is recommended so the proposed approa
 
 ## License
 
-SwiftSpatialite is released under the **MIT License**.
+SpatiaLiteData is released under the **MIT License**.
 
 See [LICENSE](LICENSE) for details.
 
-### Third-party software
+### Third-Party Software
 
-SwiftSpatialite integrates and distributes third-party open-source software.
-
-The respective licenses and copyright notices of those projects apply to their corresponding components.
+SpatiaLiteData builds on open-source projects including:
 
 * [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index)
 * [SQLite](https://www.sqlite.org/)
 * [GEOS](https://libgeos.org/)
 * [PROJ](https://proj.org/)
+* [SQLiteData](https://github.com/pointfreeco/sqlite-data)
+* [StructuredQueries](https://github.com/pointfreeco/swift-structured-queries)
+
+The respective licenses and copyright notices of these projects apply to their corresponding components.
 
 ---
 
@@ -422,6 +432,7 @@ Created and maintained by **[@agescura](https://github.com/agescura)**.
 ---
 
 <p align="center">
-  <strong>SwiftSpatialite</strong><br>
-  Spatial SQLite for native iOS applications.
+  <strong>SpatiaLiteData</strong><br>
+  Spatial SQLite for Swift.
 </p>
+
