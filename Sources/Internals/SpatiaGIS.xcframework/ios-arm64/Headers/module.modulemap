@@ -1,0 +1,4 @@
+module SpatiaGIS {
+    header "SpatiaGIS.h"
+    export *
+}
