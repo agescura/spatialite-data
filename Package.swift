@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftSpatiaLite",
+    name: "spatialite-data",
     platforms: [
         .iOS(.v16),
         .macOS(.v13),
@@ -12,8 +12,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "SpatiaLite",
-            targets: ["SpatiaLite"]
+            name: "SpatiaLiteData",
+            targets: ["SpatiaLiteData"]
         )
     ],
     traits: [
@@ -74,7 +74,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SpatiaLite",
+            name: "SpatiaLiteData",
             dependencies: [
                 "Internals",
                 .product(
