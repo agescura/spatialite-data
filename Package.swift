@@ -81,6 +81,10 @@ let package = Package(
                     name: "SQLiteData",
                     package: "sqlite-data"
                 )
+            ],
+            linkerSettings: [
+                .linkedLibrary("z"),
+                .linkedLibrary("iconv")
             ]
         ),
         .binaryTarget(

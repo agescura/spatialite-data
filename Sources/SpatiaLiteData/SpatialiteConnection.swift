@@ -1,8 +1,8 @@
 import GRDB
 import SpatiaGIS
 
-public final class SpatialiteConnection {
-    private var cache: UnsafeMutableRawPointer?
+public final class SpatialiteConnection: @unchecked Sendable {
+    private let cache: UnsafeMutableRawPointer
 
     public init(database: Database) throws {
         guard let sqlite = database.sqliteConnection else {
@@ -14,14 +14,11 @@ public final class SpatialiteConnection {
         }
 
         spatialite_init_ex(sqlite, cache, 0)
-
         self.cache = cache
     }
 
     deinit {
-        if let cache {
-            spatialite_cleanup_ex(cache)
-        }
+        spatialite_cleanup_ex(cache)
     }
 }
 

@@ -1,29 +1,22 @@
+import Dependencies
 import GRDB
 import SQLiteData
 
-public final class SpatialDatabase {
+public final class SpatialDatabase: @unchecked Sendable {
     private let dbQueue: DatabaseQueue
+    private let spatialite: SpatialiteConnection
     
-    private var spatialite: SpatialiteConnection?
-    
-    public init() throws {
-        let queue = try DatabaseQueue()
-
+    public init(path: String) throws {
+        let queue = try DatabaseQueue(path: path)
+        
         self.dbQueue = queue
-
-        try queue.write { db in
-            self.spatialite = try SpatialiteConnection(database: db)
-
-            try db.execute(
-                sql: "SELECT InitSpatialMetaData()"
-            )
+        self.spatialite = try queue.write { db in
+            try SpatialiteConnection(database: db)
         }
     }
     
-    public func prepareSpatialData() {
-        prepareDependencies {
-            $0.defaultDatabase = self.dbQueue
-        }
+    public var writer: any DatabaseWriter {
+        dbQueue
     }
     
     public func read<T>(
@@ -31,10 +24,21 @@ public final class SpatialDatabase {
     ) throws -> T {
         try dbQueue.read(body)
     }
-
+    
     public func write<T>(
         _ body: (Database) throws -> T
     ) throws -> T {
         try dbQueue.write(body)
+    }
+}
+
+private enum SpatialDatabaseKey: DependencyKey {
+    static let liveValue: SpatialDatabase? = nil
+}
+
+extension DependencyValues {
+    public var spatialDatabase: SpatialDatabase? {
+        get { self[SpatialDatabaseKey.self] }
+        set { self[SpatialDatabaseKey.self] = newValue }
     }
 }

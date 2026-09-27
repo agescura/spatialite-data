@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		95BB3B883067FC9600D21CB3 /* SpatiaLite in Frameworks */ = {isa = PBXBuildFile; productRef = 95BB3B873067FC9600D21CB3 /* SpatiaLite */; };
+		95DDAB3A30684DD5002B24EC /* SpatiaLiteData in Frameworks */ = {isa = PBXBuildFile; productRef = 95DDAB3930684DD5002B24EC /* SpatiaLiteData */; };
+		95E82EB130684C2B0040C364 /* SpatiaLiteData in Frameworks */ = {isa = PBXBuildFile; productRef = 95E82EB030684C2B0040C364 /* SpatiaLiteData */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,7 +27,8 @@
 		000000000000000130000000 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				95BB3B883067FC9600D21CB3 /* SpatiaLite in Frameworks */,
+				95DDAB3A30684DD5002B24EC /* SpatiaLiteData in Frameworks */,
+				95E82EB130684C2B0040C364 /* SpatiaLiteData in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -36,6 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000010 /* CaseStudies */,
+				95BB3B95306849F100D21CB3 /* Frameworks */,
 				000000000000000000000020 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +49,13 @@
 				000000000000000000000120 /* CaseStudies.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		95BB3B95306849F100D21CB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -66,7 +76,8 @@
 			);
 			name = CaseStudies;
 			packageProductDependencies = (
-				95BB3B873067FC9600D21CB3 /* SpatiaLite */,
+				95E82EB030684C2B0040C364 /* SpatiaLiteData */,
+				95DDAB3930684DD5002B24EC /* SpatiaLiteData */,
 			);
 			productName = MyApp;
 			productReference = 000000000000000000000120 /* CaseStudies.app */;
@@ -97,7 +108,7 @@
 			mainGroup = 000000000000000000000001;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				95BB3B863067FC9600D21CB3 /* XCLocalSwiftPackageReference "../../../spatialite-data" */,
+				95DDAB3830684DD4002B24EC /* XCLocalSwiftPackageReference "../../../spatialite-data" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 000000000000000000000020 /* Products */;
@@ -356,7 +367,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		95BB3B863067FC9600D21CB3 /* XCLocalSwiftPackageReference "../../../spatialite-data" */ = {
+		95DDAB3830684DD4002B24EC /* XCLocalSwiftPackageReference "../../../spatialite-data" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../../spatialite-data";
 			traits = (
@@ -365,9 +376,13 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		95BB3B873067FC9600D21CB3 /* SpatiaLite */ = {
+		95DDAB3930684DD5002B24EC /* SpatiaLiteData */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SpatiaLite;
+			productName = SpatiaLiteData;
+		};
+		95E82EB030684C2B0040C364 /* SpatiaLiteData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SpatiaLiteData;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
